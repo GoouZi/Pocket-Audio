@@ -1,0 +1,46 @@
+Pocket Audio Source-Available License
+Version 1.0, 2026
+
+Copyright (c) 2026 GoouZi. All rights reserved.
+
+1. Permission to Use
+
+Permission is granted to use the official Pocket Audio software and tools for personal, educational, non-commercial, and commercial creation of Game Boy Advance ROMs, subject to the rights and licenses of any content imported by the user.
+
+ROMs generated with Pocket Audio are not automatically owned by, assigned to, or licensed under the same terms as Pocket Audio. Users are responsible for ensuring that they have the necessary rights to music, artwork, lyrics, metadata, and other content included in generated ROMs.
+
+2. Source Code
+
+The source code of Pocket Audio is made available for viewing, learning, security review, and archival purposes.
+
+Unless separate written permission is granted by the copyright holder, you may not:
+
+- redistribute the Pocket Audio source code or substantial portions of it;
+- publish modified or derivative versions of Pocket Audio;
+- use the Pocket Audio source code, in whole or in substantial part, to create or distribute a competing ROM builder or substantially similar product;
+- sell, sublicense, or commercially exploit the Pocket Audio source code itself;
+- remove or alter copyright, attribution, or license notices.
+
+3. Local Modification
+
+You may make private modifications for your own use, testing, learning, or development, provided those modified versions are not redistributed or offered as a service without separate permission.
+
+4. Contributions
+
+Contributions submitted to the official project are not automatically accepted under this license. Contribution terms may be defined separately before public source development begins.
+
+5. Third-Party Components
+
+Third-party libraries, tools, code, fonts, media, or other assets included with or referenced by Pocket Audio remain subject to their own respective licenses and terms.
+
+6. Trademarks
+
+This license does not grant permission to use project names, logos, trademarks, or branding in a way that suggests endorsement or an official relationship.
+
+7. No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+8. Additional Permission
+
+For redistribution, derivative publication, commercial source-code use, integration into another product, or any use not clearly permitted above, contact the copyright holder for separate permission.
