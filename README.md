@@ -4,86 +4,44 @@
 
 **Pocket Audio** is a browser-based music ROM builder and player for the **Game Boy Advance**.
 
-It lets you import music, edit metadata, add artwork and synchronized lyrics, preview the final GBA interface in the browser, and build a standalone `.gba` ROM that can run in an emulator or on real hardware.
+The goal is to make creating a GBA music ROM feel like using a small music-authoring tool: import ordinary audio files, prepare metadata, artwork and synchronized lyrics, preview the player, then generate a standalone `.gba` ROM that can run in an emulator or on real hardware.
 
-> Current development line: **Pocket Audio Builder 0.16.x**  
-> Latest documented builder artifact: **0.16.2**
+> **Project status:** Active development. Functional on real GBA hardware, but not yet a stable public release.
+
+## Real hardware
+
+Pocket Audio is already running on a real Game Boy Advance through a flash cartridge. The current ROM player supports the core music-player interface, artwork, playback controls and track information.
+
+<p align="center">
+  <img src="docs/images/pocket-audio-player.png" alt="Pocket Audio running on a real Game Boy Advance" width="820">
+</p>
+
+<p align="center"><em>Pocket Audio player running on real GBA hardware.</em></p>
 
 ## What is already implemented
 
 ### Browser-based ROM builder
 
-Pocket Audio currently runs as a self-contained browser tool. The builder can:
+The current builder can:
 
 - Import multiple songs.
-- Read common audio formats such as MP3, WAV, OGG, FLAC and M4A/AAC when supported by the browser.
-- Read song metadata and embedded artwork from supported files.
-- Edit song title and artist information.
+- Accept common audio formats such as MP3, WAV, OGG, FLAC and M4A/AAC when supported by the browser.
+- Read supported song metadata and embedded artwork.
+- Edit title and artist information.
 - Add, replace or remove cover artwork.
-- Reorder and remove tracks.
-- Estimate the space used by each track and the final ROM.
-- Build a standalone `.gba` file directly from the browser.
+- Reorder or remove tracks.
+- Preview the GBA player at its native **240×160** resolution.
+- Estimate track size and final ROM size.
+- Generate a standalone `.gba` ROM directly in the browser.
+- Detect when a project would exceed the standard **32 MiB GBA ROM limit**.
 
-The current ROM builder respects the standard **32 MiB GBA ROM limit** and reports when a project would exceed it.
+The preview is intentionally designed around the ROM rather than as a generic web music player. The goal is for transitions, text movement, controls and lyric behavior in the builder to stay as close as possible to the final GBA output.
 
-![Pocket Audio Builder](docs/images/pocket-audio-builder.jpg)
+### Audio playback
 
-### ROM-accurate player preview
+Pocket Audio currently converts imported audio into data suitable for **GBA Direct Sound PCM** playback instead of attempting to decode modern desktop codecs on the console itself.
 
-The editor contains a **240×160 preview** designed to behave like the generated ROM rather than acting as a generic web music player.
-
-The current preview includes:
-
-- Play / pause.
-- Previous / next track.
-- ±5 second seeking.
-- Lyrics screen.
-- Playback mode switching.
-- Track-change transitions.
-- Scrolling title and artist text.
-- Album-art-based blurred background rendering.
-
-Keeping the browser preview and the real ROM visually and behaviorally consistent is one of the main goals of the project.
-
-### Real hardware playback
-
-Pocket Audio is not only an emulator-side experiment. Development builds have been tested on an actual Game Boy Advance through a flash cartridge.
-
-The current ROM already reproduces the core player UI on real hardware, including music playback, artwork, transport controls and track information.
-
-![Pocket Audio running on a real Game Boy Advance](docs/images/pocket-audio-gba-player.jpg)
-
-### Synchronized lyrics
-
-Pocket Audio already supports synchronized lyrics in the generated ROM.
-
-Supported lyric inputs include:
-
-- `.lrc`
-- `.srt`
-- `.txt`
-
-Lyrics are preprocessed by the builder into GBA-friendly data and rendered by the ROM runtime. The player includes a dedicated lyrics screen and automatically follows the current playback position.
-
-The lyrics screen has also been tested on real hardware.
-
-![Pocket Audio lyrics screen on a real Game Boy Advance](docs/images/pocket-audio-lyrics.jpg)
-
-### Multi-song playback
-
-Multi-track ROMs currently support three playback modes:
-
-- Playlist loop.
-- Single-track loop.
-- Shuffle.
-
-Playback mode is switched with `SELECT` on the GBA.
-
-For a ROM containing only one song, Pocket Audio intentionally removes unnecessary playback-mode behavior: the mode indicator is hidden, `SELECT` does nothing, and playback stops/pauses when the song ends.
-
-### Configurable audio output
-
-The builder currently provides three GBA PCM output choices:
+Current output presets are:
 
 | Setting | Intended use |
 | --- | --- |
@@ -91,7 +49,53 @@ The builder currently provides three GBA PCM output choices:
 | 16 kHz | Recommended balance |
 | 22 kHz | Higher audio quality |
 
-The generated player uses **GBA Direct Sound PCM** playback.
+This keeps the runtime simple and predictable while moving the expensive conversion work to the browser.
+
+### Synchronized lyrics
+
+Pocket Audio can package synchronized lyrics into the generated ROM.
+
+Current lyric inputs include:
+
+- `.lrc`
+- `.srt`
+- `.txt`
+
+The builder preprocesses lyric timing and rendering data before ROM generation. The GBA player has a dedicated lyrics screen and follows the current playback position.
+
+<p align="center">
+  <img src="docs/images/pocket-audio-lyrics.png" alt="Pocket Audio synchronized lyrics running on a real Game Boy Advance" width="820">
+</p>
+
+<p align="center"><em>Synchronized lyrics running on real GBA hardware.</em></p>
+
+### Multi-song playback
+
+Multi-track ROMs currently support:
+
+- Playlist loop
+- Single-track loop
+- Shuffle
+
+`SELECT` changes the playback mode when more than one song is present.
+
+For a ROM containing only one song, Pocket Audio removes the unnecessary mode UI and mode-switching logic: the mode icon is hidden, `SELECT` does not cycle modes, and playback stops/pauses after the song finishes.
+
+### Player behavior and UI
+
+Current player work includes:
+
+- Play / pause.
+- Previous / next track.
+- Seeking.
+- Album artwork.
+- Track title and artist display.
+- Scrolling text for long metadata.
+- Album-art-derived background presentation.
+- Track-change transitions.
+- Dedicated lyrics view.
+- Playback-mode indication for multi-song ROMs.
+- Browser preview behavior matched closely to the ROM.
 
 ## Current controls
 
@@ -103,58 +107,61 @@ The generated player uses **GBA Direct Sound PCM** playback.
 | `L / R` | Previous / next track |
 | `SELECT` | Change playback mode in multi-song ROMs |
 
-Controls may continue to change while the project is in development.
+Controls may still change during development.
 
-## How Pocket Audio works
+## How it works
 
-Pocket Audio does **not** try to decode modern desktop audio codecs directly on the GBA.
+Pocket Audio performs most heavy work before the ROM ever reaches the GBA:
 
-Instead, the browser builder handles the expensive work in advance:
-
-1. Import and decode the source audio.
-2. Read metadata and artwork.
-3. Prepare the cover, background and text assets.
+1. Import and decode the source audio in the browser.
+2. Read available metadata and artwork.
+3. Prepare cover, background and text assets.
 4. Parse and preprocess synchronized lyrics.
-5. Convert audio into a GBA-friendly PCM representation.
-6. Pack the songs and assets into the player ROM.
-7. Output a ready-to-run `.gba` file.
+5. Convert audio to a GBA-friendly PCM representation.
+6. Pack songs and assets into the player data archive.
+7. Build and download a ready-to-run `.gba` ROM.
 
-This approach keeps the GBA runtime small and predictable while still allowing the user to start with ordinary music files.
+The GBA runtime can therefore focus on playback, rendering, input and timing instead of decoding heavyweight source formats.
 
 ## Current development priorities
 
-### Short term
+The project is currently focused more on polish, reliability and efficiency than on adding a large number of new features.
 
-- Remove the last visible lyric-animation flicker and fast-scroll edge cases.
-- Keep the builder preview and ROM behavior as close as possible.
-- Improve playback and transition stability on real hardware.
-- Continue testing different songs, lyric densities and ROM sizes.
-- Improve the audio-quality / ROM-size tradeoff.
-- Clean the development files and prepare the first public source package.
-- Add reproducible build notes and example projects.
+### Next
+
+- Eliminate the remaining lyric-animation flicker and fast-scroll edge cases.
+- Keep browser preview timing and ROM behavior as close as possible.
+- Continue real-hardware testing with different songs and lyric densities.
+- Improve playback and transition stability.
+- Improve the balance between audio quality and ROM size.
+- Clean and organize the source tree for the first public development release.
+- Add reproducible build instructions and test material.
 
 ### Later
 
-- More efficient audio storage to fit more or higher-quality music into a ROM.
+- More efficient audio storage so a ROM can contain more music or higher-quality audio.
 - Better project save/load workflows.
-- Additional customization without making the GBA runtime heavy.
-- Broader flash-cart and emulator compatibility testing.
+- More customization while keeping the GBA runtime lightweight.
+- Wider testing across emulators and flash cartridges.
+- Further tooling for creating and validating Pocket Audio ROMs.
+
+Features are considered complete only when they also behave correctly in the generated ROM.
 
 ## Project status
 
-Pocket Audio is actively developed and already produces functional GBA music-player ROMs, but it is **not yet considered a stable release**.
+Pocket Audio already produces functional GBA music-player ROMs and has been tested on real hardware, but the project is still under active development.
 
-The first public source release will be prepared after the current builder/runtime is cleaned, documented and tested as a reproducible package.
+The first public source release will be published after the builder and ROM runtime have been cleaned, documented and packaged in a reproducible form.
 
 ## License
 
-Pocket Audio is **source-available, not open-source under MIT/GPL/Apache**.
+Pocket Audio is currently **source-available**, not open-source under MIT, GPL or Apache.
 
-You may use the official Pocket Audio tool to create GBA ROMs, including ROMs containing your own music, artwork and lyrics. Generated ROMs remain subject to the rights of the content you put into them.
+You may use the official Pocket Audio tool to create GBA ROMs, including ROMs containing your own music, artwork and lyrics. The rights to content placed into a generated ROM remain governed by the rights and licenses of that content.
 
-Modification, redistribution or commercial reuse of Pocket Audio's source code is not permitted without separate permission. See [LICENSE](LICENSE) for the exact repository terms.
+Modification, redistribution or commercial reuse of Pocket Audio's source code is not permitted without separate permission. See [LICENSE](LICENSE) for the repository terms.
 
-Third-party components, if any, remain under their own licenses.
+Third-party components, if any, remain subject to their own licenses.
 
 ## Disclaimer
 
