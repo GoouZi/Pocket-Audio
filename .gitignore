@@ -1,0 +1,26 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Temporary / generated files
+*.tmp
+*.temp
+*.log
+*.bak
+
+# Generated ROMs and intermediate audio unless intentionally tracked
+*.gba
+*.bin
+*.raw
+*.pcm
+
+# Local test/output folders
+build/
+dist/
+out/
+temp/
+tmp/
