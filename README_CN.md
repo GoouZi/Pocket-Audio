@@ -9,12 +9,6 @@
 > 当前开发线：**Pocket Audio Builder 0.16.x**  
 > 当前已记录的最新 Builder：**0.16.2**
 
-![Pocket Audio 在真实 Game Boy Advance 上运行](docs/images/pocket-audio-gba-player.png)
-
-![Pocket Audio 真机歌词界面](docs/images/pocket-audio-lyrics.png)
-
-![Pocket Audio Builder](docs/images/pocket-audio-builder.png)
-
 ## 已经实现的功能
 
 ### 浏览器 ROM 制作器
@@ -31,6 +25,8 @@ Pocket Audio 当前可以作为一个独立的浏览器工具运行，已经支�
 - 直接在浏览器中生成独立 `.gba` 文件。
 
 当前 ROM Builder 会遵守标准 GBA 的 **32 MiB ROM 上限**，当项目超出容量时会直接提示。
+
+![Pocket Audio Builder](docs/images/pocket-audio-builder.jpg)
 
 ### 尽量与 ROM 一致的播放器预览
 
@@ -49,6 +45,14 @@ Pocket Audio 当前可以作为一个独立的浏览器工具运行，已经支�
 
 让浏览器预览和真正 ROM 的画面、动画与逻辑尽量保持一致，是 Pocket Audio 的核心目标之一。
 
+### 真机播放
+
+Pocket Audio 不只是模拟器里的概念验证。开发版本已经通过烧录卡在真实 Game Boy Advance 上进行测试。
+
+当前 ROM 已经可以在真机上还原主要播放器界面，包括音乐播放、封面、播放控制和歌曲信息。
+
+![Pocket Audio 在真实 Game Boy Advance 上运行](docs/images/pocket-audio-gba-player.jpg)
+
 ### 同步歌词
 
 Pocket Audio 已经可以把同步歌词真正打包进生成的 ROM。
@@ -60,6 +64,10 @@ Pocket Audio 已经可以把同步歌词真正打包进生成的 ROM。
 - `.txt`
 
 Builder 会提前把歌词处理成适合 GBA 使用的数据，ROM 端拥有独立歌词界面，并根据当前播放进度自动跟随歌词。
+
+歌词界面也已经在真实硬件上测试。
+
+![Pocket Audio 真机歌词界面](docs/images/pocket-audio-lyrics.jpg)
 
 ### 多曲播放
 
@@ -84,10 +92,6 @@ Builder 当前提供三档 GBA PCM 输出设置：
 | 22 kHz | 更高音质 |
 
 生成的播放器使用 **GBA Direct Sound PCM** 播放音频。
-
-### 真机测试
-
-Pocket Audio 不只是模拟器里的概念验证。开发版本已经通过烧录卡在真实 Game Boy Advance 上进行测试，包括音乐播放、封面显示、UI 动画以及同步歌词。
 
 ## 当前按键
 
