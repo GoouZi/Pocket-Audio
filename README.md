@@ -9,12 +9,6 @@ It lets you import music, edit metadata, add artwork and synchronized lyrics, pr
 > Current development line: **Pocket Audio Builder 0.16.x**  
 > Latest documented builder artifact: **0.16.2**
 
-![Pocket Audio running on a real Game Boy Advance](docs/images/pocket-audio-gba-player.png)
-
-![Pocket Audio lyrics screen on a real Game Boy Advance](docs/images/pocket-audio-lyrics.png)
-
-![Pocket Audio Builder](docs/images/pocket-audio-builder.png)
-
 ## What is already implemented
 
 ### Browser-based ROM builder
@@ -31,6 +25,8 @@ Pocket Audio currently runs as a self-contained browser tool. The builder can:
 - Build a standalone `.gba` file directly from the browser.
 
 The current ROM builder respects the standard **32 MiB GBA ROM limit** and reports when a project would exceed it.
+
+![Pocket Audio Builder](docs/images/pocket-audio-builder.jpg)
 
 ### ROM-accurate player preview
 
@@ -49,6 +45,14 @@ The current preview includes:
 
 Keeping the browser preview and the real ROM visually and behaviorally consistent is one of the main goals of the project.
 
+### Real hardware playback
+
+Pocket Audio is not only an emulator-side experiment. Development builds have been tested on an actual Game Boy Advance through a flash cartridge.
+
+The current ROM already reproduces the core player UI on real hardware, including music playback, artwork, transport controls and track information.
+
+![Pocket Audio running on a real Game Boy Advance](docs/images/pocket-audio-gba-player.jpg)
+
 ### Synchronized lyrics
 
 Pocket Audio already supports synchronized lyrics in the generated ROM.
@@ -60,6 +64,10 @@ Supported lyric inputs include:
 - `.txt`
 
 Lyrics are preprocessed by the builder into GBA-friendly data and rendered by the ROM runtime. The player includes a dedicated lyrics screen and automatically follows the current playback position.
+
+The lyrics screen has also been tested on real hardware.
+
+![Pocket Audio lyrics screen on a real Game Boy Advance](docs/images/pocket-audio-lyrics.jpg)
 
 ### Multi-song playback
 
@@ -84,10 +92,6 @@ The builder currently provides three GBA PCM output choices:
 | 22 kHz | Higher audio quality |
 
 The generated player uses **GBA Direct Sound PCM** playback.
-
-### Real hardware testing
-
-Pocket Audio is not only an emulator-side experiment. Development builds have been tested on an actual Game Boy Advance through a flash cartridge, including music playback, artwork, UI transitions and synchronized lyrics.
 
 ## Current controls
 
